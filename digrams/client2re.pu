@@ -1,0 +1,19 @@
+@startuml subscription
+participant Client as C
+participant Relay as R
+
+C -> R: Subscription (with subscription_id)
+R -> C: ["EOSE", <subscription_id>]
+
+note over C, R: Start of live events
+
+C -> R: EVENT (with event JSON)
+R -> C: ["OK", <event_id>, true|false, <message>]
+
+C -> R: EVENT (with another event JSON)
+R -> C: ["OK", <event_id>, true|false, <message>]
+
+note over R: If there's an error or notice
+R -> C: ["NOTICE", <message>]
+
+@enduml
